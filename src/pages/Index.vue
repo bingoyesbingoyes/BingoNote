@@ -42,30 +42,60 @@ export default {
             isDarkMode: false,
         };
     },
+    mounted() {
+        this.loadPlans();
+    },
     methods: {
         addPlan() {
+            console.log("addPlan");
+            this.savePlans();
             this.plans.push({ text: "" });
         },
         addNewPlan(index) {
+            console.log("addNewPlan");
             if (index === this.plans.length - 1) {
                 this.addPlan();
             }
         },
         removePlan(index) {
+            console.log("removePlan");
             this.plans.splice(index, 1);
             if (this.plans.length === 0) {
                 this.addPlan();
+            } else {
+                this.savePlans();
             }
         },
         minimizeWindow() {
+            console.log("minimizedWindow");
             window.electron.minimize();
         },
         closeWindow() {
+            console.log("CloseWindow");
             window.electron.close();
         },
         toggleStyle() {
+            console.log("toggleStyle");
             this.isDarkMode = !this.isDarkMode;
         },
+        savePlans() {
+            const cleanPlans = this.plans.map((plan) => ({
+                ...plan,
+            }));
+            console.log("SavePlans", cleanPlans);
+            window.electron.savePlans(cleanPlans);
+        },
+        loadPlans() {
+    window.electron.onPlansLoaded((loadedPlans) => {
+        if (loadedPlans && loadedPlans.length > 0) {
+            this.plans = loadedPlans;
+        } else {
+            this.plans = [{ text: "" }];
+        }
+        console.log("loadPlans", this.plans);
+    });
+}
+
     },
 };
 </script>

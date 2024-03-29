@@ -13,6 +13,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "electron-icon-maker": "^0.0.5",
+    "electron-store": "^8.2.0",
     "quasar": "^2.8.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.12"
